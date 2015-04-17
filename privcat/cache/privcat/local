@@ -1,0 +1,258 @@
+<?php
+/* Privkat v8 28-01-2015 / Patryk */
+include $_SERVER['DOCUMENT_ROOT'].'/config.php';
+$adresstrony = $_SERVER["SERVER_NAME"];
+$podstrona = basename($_SERVER["REQUEST_URI"]);
+$nadkatalog = dirname($_SERVER["REQUEST_URI"]);
+$tytphp = str_replace('.php', '', $podstrona);
+
+if ($podstrona == '') $kategorie = array_diff(scandir($hasz), array('..', '.', 'AAA')); else $kategorie = array_diff(scandir("../".$hasz), array('..', '.', 'AAA'));
+$ilekat = sizeof($kategorie) ;
+if (strpos($podstrona,'.php') !== false) {
+    $katwpisow = "../".$hasz.$nadkatalog;
+} else {
+if ($podstrona == '') $katwpisow = $hasz."/AAA"; else $katwpisow ="../".$hasz."/".$podstrona; }
+$nazwywpisy = array_diff(scandir($katwpisow), array('..', '.'));
+$ilewpisow = sizeof($nazwywpisy);
+/* logi */
+$hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+$agent = $_SERVER['HTTP_USER_AGENT'];
+
+if (preg_match($crawler,$HTTP_USER_AGENT) || preg_match($crawler,$hostname) )
+{
+if ($QUERY_STRING != "") {$url = "http://".$SERVER_NAME.$PHP_SELF.'?'.$QUERY_STRING;} 
+else {$url = "http://".$SERVER_NAME.$PHP_SELF;} 
+$today = date("F j, Y, H:i:s"); 
+$logfile = @fopen($_SERVER['DOCUMENT_ROOT'].'/googlebot.txt', 'a'); 
+@fputs($logfile, $today.' | '.$_SERVER["REQUEST_URI"].' | '.$agent.' | '.$hostname." \n"); 
+@fclose($logfile);
+}
+/* /logi */
+
+// wylaczenie privkata z poziomu configa
+if ($zlyprivkat=='1') 
+{
+	header("HTTP/1.1 410 Gone");
+	echo "<!DOCTYPE html>\r\n<html lang=\"pl\">\r\n<head>\r\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\r\n<meta name=\"robots\" content=\"noindex,nofollow\" />\r\n<title>strona w budowie</title>\r\n</head>\n<body>";
+	if ($zlyprivkattresc != '') { echo $zlyprivkattresc;} 
+	else { echo "Strona \"$tytu\" w budowie.<br />Zapraszamy ponownie później"; }  
+	echo "</body></html>";
+}
+
+else {
+
+ echo '<!DOCTYPE html'; if ($typ !== '3') {echo ' PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"'."\n".'"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"';} echo '>'."\n"; ?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="robots" content="index,follow" />
+		<link rel="canonical" href="http://<?php echo $_SERVER['HTTP_HOST']; echo parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ); ?>" />
+		<title><?php 
+		echo $adresstrony; if ($podstrona != '') echo " - "; if (strpos($podstrona,'php') !== false) {include $katwpisow."/"."klient"; echo substr($nazwa,0,40);} else {echo $tytphp;} ?></title>
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<link type="text/css" href="/css/style.css" rel="stylesheet" />
+		</head>
+	<body>
+		<div id="<?php echo $opak; ?>">
+			<div id="<?php echo $nagl; ?>">
+				<h1><?php echo $tytu; //header title ?></h1>
+				<h2><?php echo $podt; //header sub-title ?></h2>
+			</div>			
+<div class="clear"></div>
+<?php if ($bread == '1') {  // poczatek kodu breadcrumbsow
+function breadcrumbs($separator = ' &raquo; ', $home = 'Start') {
+    $path = array_filter(explode('/', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));
+    $base_url = ($_SERVER['HTTPS'] ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
+    $breadcrumbs = array("<span itemscope itemtype=\"http://www.data-vocabulary.org/Breadcrumb\"><a itemprop=\"url\" href=\"$base_url\"><span itemprop=\"title\">$home</span></a></span>");
+    $last = end(array_keys($path));
+    foreach ($path AS $x => $crumb) {
+        $title = ucwords(str_replace(array('.php', '_'), Array('', ' '), $crumb));
+        if ($x != $last){
+            $breadcrumbs[] = '<span itemscope itemtype="http://www.data-vocabulary.org/Breadcrumb"><a href="'.$base_url.$crumb.'/" itemprop="url"><span itemprop="title">'.$title.'</span></a></span>';
+        }else{
+            $breadcrumbs[] = '<span >'.$title.'</span>';
+        }
+    }
+    return implode($separator, $breadcrumbs);
+}  
+echo '<div style="text-align:left;margin-left:20px;">'.breadcrumbs().'</div>';
+} // koniec kodu breadcrumbsow
+?>
+			<div id="<?php echo $srod.'"'; ?> itemscope itemtype="http://schema.org/Article">
+				<h2<?php if ($typ == "3") echo ' itemprop="headline"';?>><?php if (strpos($podstrona,'.php') == false) {if ($podstrona == '') echo $podt; else echo $podstrona;} else  {include $katwpisow."/"."klient";  echo $nazwa;} ?></h2>
+				<?php if (strpos($podstrona,'.php') !== false) for ($i=0; $i < 1 ; $i++) { ?>
+					<div class="<?php echo $wizy.'"'; if ($typ == "3") echo ' '; ?>>
+						<a<?php if ($typ == "3") echo ' itemprop="url"'; ?> href="<?php echo $url; ?>"><?php if ($key !== "") {echo $key;} else {echo $nazwa;} ?></a>
+						<br />
+						<p<?php if ($typ == "3") echo ' itemprop="articleBody"';?>><?php echo $opis; ?></p>
+						<?php
+						php > $pelnyurl = parse_url($url);
+						$adr = $pelnyurl[host];
+						$adr = preg_replace('#^www\.(.+\.)#i', '$1', $adr);
+						$adr = str_replace('.', '-', $adr);
+						?>
+						
+						<br />
+						<br />
+						
+<?php if ($typ == "1") {  // mikrodane typ1 czyli gorszy, bo ma vcarda ?>
+<div class="vcard">
+<div class="fn org"<?php if ($bold == '1') {echo ' style="font-weight:bold"';} ?>><?php echo $nazwa; ?></div>
+<?php
+if ($adres !== '' && $zip !== '' && $miasto !== '' && $state !== '') {
+echo '<div class="adr">';
+if ($adres !== "") echo '<div class="street-address"'.$adres.'</div>'."\n";
+if ($zip !== "") echo '<div><span class="postal-code">'.$zip.'</span> '; 
+if ($miasto !== "") echo '<span class="locality"'.$miasto.'</span><br />'."\n";
+if ($state !== "") echo '<span class="region">'.$state.'</span></div>'."\n";
+echo '</div>'."\n"; }
+if ($tel !== "") echo 'Tel. <span class="tel">'.$tel.'</span></div>'."\n";
+$czystyurl=str_replace("http://","",$url); $czystyurl=str_replace("https://","",$czystyurl); $czystyurl=preg_replace('/\/.*/',"",$czystyurl);
+echo '<a class="url" href="http://'.$czystyurl.'">http://'.$czystyurl.'</a><br /><br />'."\n"; 
+echo '</div>' ?>
+<?php } // koniec kodu od typu1 ?>
+
+						
+<?php if ($typ == '3') { // mikrodane typ3 czyli schema.org
+echo '<div itemscope itemtype="http://schema.org/'; if ($itemtype == '') {echo 'LocalBusiness';} else {echo $itemtype;} echo '"><div style="float:right;max-width:56%;margin-right:9%">'."\n";
+if ($bold == '1') {echo '<strong';} else {echo '<div';} echo ' itemprop="name">'.$nazwa.'</'; if ($bold == '1') {echo 'strong><br />'."\n";} else {echo 'div>'."\n";} 
+if ($adres !== '' && $zip !== '' && $miasto !== '' && $state !== '') { // nie pokazujemy jesli nie ma danych teleadresowych
+echo '<span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">'."\n"; 
+if ($adres !== "") echo '<span itemprop="streetAddress">'.$adres.'</span><br />'."\n";
+if ($zip !== "") echo '<span itemprop="postalCode">'.$zip.'</span>&nbsp;';
+if ($miasto !== "") echo '<span itemprop="addressLocality">'.$miasto.'</span><br />'."\n";
+if ($state !== "") echo '<span itemprop="addressRegion">'.$state.'</span><br />'."\n";
+echo '</span>'."\n"; } 
+$czystyurl=str_replace("http://","",$url); $czystyurl=str_replace("https://","",$czystyurl); $czystyurl=preg_replace('/\/.*/',"",$czystyurl);
+if ($tel !== "") echo 'Tel. <span itemprop="telephone">'.$tel.'</span><br />'."\n";
+echo '<a itemprop="url" href="http://'.$czystyurl.'">http://'.$czystyurl.'</a><br />'."\n";
+
+if (!empty($sameas)) // podobno sameAs i link do opisu na wikipedii, profilu fb/g+ pomaga
+	{
+	echo '<a itemprop="sameAs" href="'.$sameas.'">'.$sameas.'</a><br />'."\n";
+	}
+
+if (!empty($geolat) | !empty($geolon)) // jesli nie ma - nie wyswietlamy. geo koordynaty - niby pomagaja.
+	{
+	echo '<span itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">';
+	echo '<meta itemprop="latitude" content="'.$geolat.'" />';
+	echo '<meta itemprop="longitude" content="'.$geolon.'" />';
+	echo '</span>';
+	}
+
+
+echo '</div>'."\n";
+echo '<img style="float:left;"'; if ($typ == "3") echo ' itemprop="logo"'; echo ' src="'.$adr.'.jpg" alt="'.$nazwa.'" /></div>';
+} ?>					
+					</div>
+				<?php } else{ for ($i=0; $i < $ilewpisow ; $i++) { include $katwpisow."/".$nazwywpisy[$i+2]; 
+					php > $pelnyurl = parse_url($url);
+					$adr = $pelnyurl[host];
+					$adr = preg_replace('#^www\.(.+\.)#i', '$1', $adr);
+					$adr = str_replace('.', '-', $adr);
+				?>
+					<div class="<?php echo $wizy.'"'; ?>>
+						<a<?php if ($typ == "3") echo ' itemprop="url"'; ?> href="<?php echo basename($adr).".php"; ?>"><?php if ($key !== "") {echo $key;} else {echo $nazwa;} ?></a>
+						<br />
+						<p><?php echo $opis; ?></p>
+						<img<?php if ($typ == "3") echo ' itemprop="image"'; ?> src="<?php echo $adr.".jpg"?>" alt="<?php echo $nazwa; ?>" />
+						<br />
+						<br />
+<?php if ($typ == "1") { ?>
+<div class="vcard">
+<div class="fn org"<?php if ($bold == '1') {echo ' style="font-weight:bold"';} ?>><?php echo $nazwa; ?></div>
+<?php
+if ($adres !== '' && $zip !== '' && $miasto !== '' && $state !== '') {
+echo '<div class="adr">';
+if ($adres !== "") echo '<div class="street-address"'.$adres.'</div>'."\n";
+if ($zip !== "") echo '<div><span class="postal-code">'.$zip.'</span> '; 
+if ($miasto !== "") echo '<span class="locality"'.$miasto.'</span><br />'."\n";
+if ($state !== "") echo '<span class="region">'.$state.'</span></div>'."\n";
+echo '</div>'."\n"; }
+if ($tel !== "") echo 'Tel. <span class="tel">'.$tel.'</span></div>'."\n";
+$czystyurl=str_replace("http://","",$url); $czystyurl=str_replace("https://","",$czystyurl); $czystyurl=preg_replace('/\/.*/',"",$czystyurl); ?>
+<a class="url" href="http://<?php echo $czystyurl; ?>">http://<?php echo $czystyurl; ?></a><br /><br />
+</div>
+<?php } ?>
+
+						
+<?php if ($typ == '3') {
+echo '<div itemscope itemtype="http://schema.org/'; if ($itemtype == '') {echo 'LocalBusiness';} else {echo $itemtype;} echo '">'."\n";
+if ($bold == '1') {echo '<strong';} else {echo '<div';} echo ' itemprop="name">'.$nazwa.'</'; if ($bold == '1') {echo 'strong><br />'."\n";} else {echo 'div>'."\n";} 
+if ($adres !== '' && $zip !== '' && $miasto !== '' && $state !== '') {
+echo '<span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">'."\n"; 
+if ($adres !== "") echo '<span itemprop="streetAddress">'.$adres.'</span><br />'."\n";
+if ($zip !== "") echo '<span itemprop="postalCode">'.$zip.'</span>&nbsp;';
+if ($miasto !== "") echo '<span itemprop="addressLocality">'.$miasto.'</span><br />'."\n";
+if ($state !== "") echo '<span itemprop="addressRegion">'.$state.'</span><br />'."\n";
+echo '</span>'."\n"; } 
+$czystyurl=str_replace("http://","",$url); $czystyurl=str_replace("https://","",$czystyurl); $czystyurl=preg_replace('/\/.*/',"",$czystyurl);
+if ($tel !== "") echo 'Tel. <span itemprop="telephone">'.$tel.'</span><br />'."\n";
+echo '<a itemprop="url" href="http://'.$czystyurl.'">http://'.$czystyurl.'</a><br />'."\n";
+
+if (!empty($sameas)) 
+	{
+	echo '<a itemprop="sameAs" href="'.$sameas.'">'.$sameas.'</a><br />'."\n";
+	}
+
+if (!empty($geolat) | !empty($geolon)) 
+	{
+	echo '<span itemprop="geo" itemscope itemtype="http://schema.org/GeoCoordinates">';
+	echo '<meta itemprop="latitude" content="'.$geolat.'" />';
+	echo '<meta itemprop="longitude" content="'.$geolon.'" />';
+	echo '</span>';
+	}
+echo '</div>'."\n";
+} ?>
+					</div>
+				
+				<?php } } ?>
+			</div>
+			
+
+				<nav id="<?php echo $praw; ?>" itemscope itemtype="http://schema.org/SiteNavigationElement">			
+					<h4>Menu</h4>
+					<ul>
+						<li><a href="/">Strona Główna</a></li>
+					<?php for ($i=0; $i < $ilekat ; $i++) { ?>
+						<li itemprop="url">
+							<a href="/<?php echo $kategorie[$i+3]; ?>/" itemprop="name"><?php echo ucfirst($kategorie[$i+3]); ?></a>
+						</li>
+					<?php } ?>
+					</ul>
+				
+				</nav>
+
+<div class="clear"></div>
+		</div>
+		
+		<div id="<?php echo $stop; ?>">
+			<?php echo "&copy; ".$adresstrony." - ".date("Y"); ?>
+		</div>
+	</body>
+</html>
+<?php 
+} // koniec else'a od normalnego trybu pracy
+
+	if ($podstrona !== '' && strpos($podstrona,'.php') == false) // generowanie i pobieranie miniatur
+		foreach ($nazwywpisy as $nazwawpis) {
+		include $katwpisow."/".$nazwawpis;
+		php > $pelnyurl = parse_url($url);
+		$adr = $pelnyurl[host];
+		$adr = preg_replace('#^www\.(.+\.)#i', '$1', $adr);
+		$adr = str_replace('.', '-', $adr);
+	//	if (!file_exists($adr.".jpg")) {
+		// file_put_contents($key.".jpg", fopen("http://free.pagepeeker.com/v2/thumbs.php?size=m&code=444&refresh=1&wait=5&url=".$url, 'r'));
+			$pagepeeker = "http://free.pagepeeker.com/v2/thumbs.php?size=m&code=444&refresh=1&wait=5&url=";
+		file_put_contents($adr.".jpg", fopen("http://free.pagepeeker.com/v2/thumbs.php?size=m&code=444&refresh=1&wait=5&url=".$url, 'r'));
+	//	}
+			 if (!file_exists($podstrona.'/'.$adr.'.php')) // pobieramy zawsze najnowszy index.php z /
+				{ 
+				$file_contents = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/index.php');
+				file_put_contents('index.php',$file_contents);
+				$file_contents = str_replace("klient",$nazwawpis,$file_contents);
+				file_put_contents($adr.'.php',$file_contents);
+				} 
+		}
+?>

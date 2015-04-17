@@ -1,0 +1,16 @@
+<?php
+	$itemtype="LocalBusiness";	
+	$url="http://www.proharmonia-spa.pl/zabytkowy-hotel";
+	$key="spa butikowe";
+	$opis="Wybierając miejsce na wypoczynek trzeba zwrócić uwagę na wiele różnych czynników tak, by wybrać ofertę najbardziej nam odpowiadającą. Jeśli zależy nam na pakiecie kulinarnym, a przy okazji możliwość podziwiania pięknych krajobrazów to ProHarmonia bedzie idealnym miejscem na wypoczynek. Dla miłośników odnowy biologicznej oferujemy zabiegi SPA.";
+	$nazwa="NEO NIERUCHOMOŚCI SP. Z O.O.";
+	$adres="ul. Ślężna 148";
+	$zip="53-111";
+	$miasto="Wrocław";
+	$state="Dolnośląskie";
+	$tel="887110202";
+	$nofol="0";
+	$linki="1";
+	$datakonca="2681-04-16";
+	$sameas="https://plus.google.com/112805104982342986063/about";
+?>

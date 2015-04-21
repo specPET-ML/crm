@@ -127,5 +127,10 @@
             Diagnostyka
         </a>
     </li>
+    <li>
+        <a class="main" href="<?php echo url::page('frazyOgolne');?>">
+            Frazy ogólne
+        </a>
+    </li>
 
 </ul>

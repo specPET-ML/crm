@@ -41,7 +41,7 @@ forms::title(array('title' => 'Frazy dla klienta '));
                 ?>
             </td>
             <td style="vertical-align: bottom;">
-                <?php forms::submit(array('label' => 'Dodaj frazę')); ?>
+                <?php forms::submit(array('label' => 'Zapisz zmiany')); ?>
             </td>
         </tr>
     </table>
